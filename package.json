@@ -19,5 +19,10 @@
   "homepage": "https://github.com/congo6/skolprojekt---nodejs#readme",
   "devDependencies": {
     "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "uuid": "^3.3.2"
   }
 }
