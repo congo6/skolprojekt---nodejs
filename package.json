@@ -1,0 +1,23 @@
+{
+  "name": "skolprojekt_nodejs",
+  "version": "1.0.0",
+  "description": "2019-02-28 WEBBSRV",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/congo6/skolprojekt---nodejs.git"
+  },
+  "author": "cheehoe.oh@skola.taby.se",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/congo6/skolprojekt---nodejs/issues"
+  },
+  "homepage": "https://github.com/congo6/skolprojekt---nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
