@@ -1,5 +1,20 @@
 # Skolprojekt - nodejs
 
-WEBBSRV
+CONTENTS OF THIS FILE
+---------------------
+ * Configuration
+ * Installation
 
-#### Traversy Media Express JS Crash Course - https://www.youtube.com/watch?v=L72fhGm1tfE
+CONFIGURATION
+------------
+
+INSTALLATION
+------------
+ 
+ * Klona eller ladda ner projektet via github och ange följande i terminal/cmd:
+
+        npm install
+
+ * Starta applikationen genom terminal/cmd i mappen där index.js befinner sig i via kommandot:
+ 
+        node index.js
