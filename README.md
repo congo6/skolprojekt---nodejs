@@ -1,15 +1,9 @@
 # Skolprojekt - nodejs
 
-CONTENTS OF THIS FILE
----------------------
- * Configuration
- * Installation
-
-CONFIGURATION
-------------
 
 INSTALLATION
 ------------
+ * Se till att ha nodejs, mongodb installerat
  
  * Klona eller ladda ner projektet via github och ange följande i terminal/cmd:
 
