@@ -5,11 +5,10 @@ const users = require('../../Members');
 const User = require('../../models/users');
 
 
-router.get('/', (req, res) => {
-    res.json({
-        status: 'success',
-        users,
-    });
+router.get('/', (req, res, next) => {
+    User.find({}).then(user => {
+        res.json({user});
+    }).catch(next);
 });
 
 router.get('/:id', (req, res) => {
@@ -27,6 +26,13 @@ router.post('/', (req, res, next) => {
         res.json(user);
     }).catch(next); 
 });
+
+router.delete('/:id', (req, res, next) => {
+    User.findByIdAndDelete({_id: req.params.id}).then(user => {
+        console.log('User deleted!');
+        res.json(user);
+    }).catch(next);
+})
 
 /* 
 
