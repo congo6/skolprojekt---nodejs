@@ -7,12 +7,11 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// connect to mongodb
-mongoose.connect('mongodb://localhost/usergo', { useNewUrlParser: true }, err => {
+mongoose.connect('mongodb://localhost/userdb', { useNewUrlParser: true }, err => {
     if (err) throw err;
     console.log('mongoose is running!');
 });
-mongoose.Promise = global.Promise;
+//mongoose.Promise = global.Promise;
 
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -40,7 +39,7 @@ app.get('/', (req, res) => res.render('index', {
 
 
 app.use((req, res, next) => {
-    res.send('404');
+    res.status(404).send('404');
     next();
 });
 

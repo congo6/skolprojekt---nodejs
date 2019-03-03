@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const uuid = require('uuid');
-const users = require('../../Members');
 const User = require('../../models/users');
 
 
 router.get('/', (req, res, next) => {
+    console.log('chad');
     User.find({}).then(user => {
-        res.json({user});
+        res.json(user);
     }).catch(next);
 });
 
