@@ -1,16 +1,17 @@
 <script>    
-    function test() {    
+    function test() {
+        let arr = [];
         fetch('http://localhost:5000/api/users').then(res =>{
             return res.json();
         }).then(data => {
-            let arr = [];
-            console.log(data);
             data.forEach(index => {
                 arr.push(index);
-            return arr;
             })
         });
+        return arr;
     }
+    arr = test();
+    console.log(arr);
 </script>
 
 <h1 class="text-center mb-3">{{title}}</h1>
