@@ -1,4 +1,21 @@
-<script>    
+<script>
+    fetch('http://localhost:5000/api/users').then(res => {
+        return res.json();
+    }).then(data => {
+        let output = '<h2>users</h2>';
+        data.forEach(user => {
+            console.log(data);
+            output += `
+                <ul class="mb-3">
+                    <li class="list-group-item">ID: ${user._id}</li>
+                    <li class="list-group-item">Name: ${user.name}</li>
+                    <li class="list-group-item">Age: ${user.age}</li>
+                </ul>
+            `;
+            document.getElementById('test').innerHTML = output;
+        });
+    })
+    /*
     function test() {
         let arr = [];
         fetch('http://localhost:5000/api/users').then(res =>{
@@ -12,6 +29,7 @@
     }
     arr = test();
     console.log(arr);
+    */
 </script>
 
 <h1 class="text-center mb-3">{{title}}</h1>
@@ -26,11 +44,8 @@
     </div>
     <input type="submit" value="Add Member" class="btn btn-primary btn-block">
 </form>
-<h4>Members</h4>
-<ul>
-    {{#each members}}
-        <li class="list-group-item">{{this.name}}: {{this.email}}</li>
-    {{/each}}
-</ul>
+
+<div id="test"></div>
+
 
 <a href="/api/users" class="btn btn-light mt-4">Visit API</a>

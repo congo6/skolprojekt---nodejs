@@ -2,16 +2,18 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const users = require('./routes/api/users');
+const stock = require('./routes/api/stock');
 const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://localhost/userdb', { useNewUrlParser: true }, err => {
+// connect to mongodb
+mongoose.connect('mongodb://localhost/usergo', { useNewUrlParser: true }, (err, db) => {
     if (err) throw err;
     console.log('mongoose is running!');
 });
-//mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -22,11 +24,12 @@ app.use(express.urlencoded({extended: false}));
 
 
 app.use('/api/users', users);
+app.use('/api/stock', stock);
 
 // error handling middleware
 app.use((err, req, res, next) => {
-    console.log('error: ', err.message);
-    res.status(422).send({error: err.message});
+    console.log('error:', err.message);
+    res.status(400).send({error: err.message});
 })
 
 app.get('/', (req, res) => res.render('index', {
@@ -39,7 +42,7 @@ app.get('/', (req, res) => res.render('index', {
 
 
 app.use((req, res, next) => {
-    res.status(404).send('404');
+    res.send('404');
     next();
 });
 

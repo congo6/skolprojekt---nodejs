@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Create user schema & model
-const UserSchema = new Schema({
+const StockSchema = new Schema({
     name:{
         type:String,
         required: [true, 'Name field is required']
@@ -13,13 +13,9 @@ const UserSchema = new Schema({
     available: {
         type: Boolean,
         default:false
-    },
-    likes: {
-        type: Number
     }
-    // add in geo location
-});
+}, {collection:'stock'});
 
-const User = mongoose.model('user', UserSchema);
+const Stock = mongoose.model('stock', StockSchema);
 
-module.exports = User;
+module.exports = Stock;
