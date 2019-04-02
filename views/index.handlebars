@@ -1,41 +1,18 @@
-<script>
-    fetch('http://localhost:5000/api/users').then(res => {
-        return res.json();
-    }).then(data => {
-        let output = '<h2>users</h2>';
-        data.forEach(user => {
-            output += `
-                <ul class="mb-3">
-                    <li class="list-group-item">ID: ${user._id}</li>
-                    <li class="list-group-item">Name: ${user.name}</li>
-                    <li class="list-group-item">Age: ${user.age}</li>
-                </ul>
-            `;
-            document.getElementById('test').innerHTML = output;
-        });
-    })
-
-    userForm = document.getElementById('userForm');
-
-    userForm.addEventListener('submit', event => {
-        console.log(userForm);
-    });
+<h1 class="text-center">{{title}}</h1>
 
 
-</script>
-
-<h1 class="text-center mb-3">{{title}}</h1>
-<form action="/api/users" id="userForm" method="POST" class="mb-4">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" name="name" class="form-control">
+<div class="row">
+  <form method="POST" id="userForm" class="col s12">
+    <div class="input-field col s12 validate">
+      <input type="text" name="name">
+      <label for="name">Name</label>
     </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" name="email" class="form-control">
+    <div class="input-field col s12">
+      <input type="text" name="age">
+      <label for="age">age</label>
     </div>
     <input type="submit" value="Add Member" class="btn btn-primary btn-block">
-</form>
+</div>
 
 <div id="test"></div>
 
@@ -73,3 +50,49 @@
   </div>
 
 <a href="/api/users" class="btn btn-light mt-4">Visit API</a>
+
+<script>
+    // Hämta alla users, denna ska vara här
+    fetch('/api/users').then(res => {
+        return res.json();
+    }).then(data => {
+        let output = '<h2>users</h2>';
+        data.forEach(user => {
+            output += `
+                <ul class="mb-3">
+                    <li class="list-group-item">ID: ${user._id}</li>
+                    <li class="list-group-item">Name: ${user.name}</li>
+                    <li class="list-group-item">Age: ${user.age}</li>
+                </ul>
+            `;
+            document.getElementById('test').innerHTML = output;
+        });
+    })
+
+
+    // post request
+    const userForm = document.getElementById('userForm');
+    console.log();
+    userForm.addEventListener('submit', e => {
+      e.preventDefault(); // tar bort standard beteende
+      
+      data = {
+        "name":userForm.name.value,
+        "age":userForm.age.value
+      };
+      console.log(data);
+
+      fetch('/api/users/',{
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type':'application/json'
+        }
+      }).then(res => {
+        return res.json();
+      }).catch(error => {
+        console.log(error);
+      })
+    });
+
+</script>
