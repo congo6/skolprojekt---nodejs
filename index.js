@@ -26,7 +26,6 @@ app.use(express.urlencoded({extended: false}));
 app.use('/api/users', users);
 app.use('/api/stock', stock);
 
-// error handling middleware
 app.use((err, req, res, next) => {
     console.log('error:', err.message);
     res.status(400).send({error: err.message});
@@ -39,7 +38,6 @@ app.get('/', (req, res) => res.render('index', {
         age: '55'
     }
 }));
-
 
 app.use((req, res, next) => {
     res.send('404');
