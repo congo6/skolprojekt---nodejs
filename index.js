@@ -3,6 +3,8 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const users = require('./routes/api/users');
 const stock = require('./routes/api/stock');
+const movies = require('./routes/api/movies');
+
 const mongoose = require('mongoose');
 
 const app = express();
@@ -15,7 +17,6 @@ mongoose.connect('mongodb://localhost/usergo', { useNewUrlParser: true }, (err, 
 });
 mongoose.Promise = global.Promise;
 
-
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -25,6 +26,8 @@ app.use(express.urlencoded({extended: false}));
 
 app.use('/api/users', users);
 app.use('/api/stock', stock);
+app.use('/api/movies', movies);
+
 
 app.use((err, req, res, next) => {
     console.log('error:', err.message);
@@ -38,6 +41,8 @@ app.get('/', (req, res) => res.render('index', {
         age: '55'
     }
 }));
+
+app.get('/test', (req, res) => res.render('test'));
 
 app.use((req, res, next) => {
     res.send('404');
