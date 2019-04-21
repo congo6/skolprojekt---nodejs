@@ -7,12 +7,12 @@ const movieSchema = new Schema({
         type: String,
         required: [true, 'Title field is required']
     },
-    genre: [String],
-    duration: Number,
+    description: String,
+    genre: String,
     director: String,
-    writers: [String],
-    actors: [String]
-    // add in geo location
+    stars: String,
+    Year: Number,
+    poster: String
 });
 
 const Movie = mongoose.model('movies', movieSchema);
