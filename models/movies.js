@@ -14,7 +14,6 @@ const movieSchema = new Schema({
     Year: Number,
     poster: String
 });
-
 const Movie = mongoose.model('movies', movieSchema);
 
 module.exports = Movie;

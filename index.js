@@ -4,6 +4,8 @@ const exphbs = require('express-handlebars');
 const users = require('./routes/api/users');
 const stock = require('./routes/api/stock');
 const movies = require('./routes/api/movies');
+const moviesId = require('./routes/movies');
+
 
 const mongoose = require('mongoose');
 
@@ -27,6 +29,7 @@ app.use(express.urlencoded({extended: false}));
 app.use('/api/users', users);
 app.use('/api/stock', stock);
 app.use('/api/movies', movies);
+app.use('/movies', moviesId)
 
 
 app.use((err, req, res, next) => {
@@ -42,10 +45,11 @@ app.get('/', (req, res) => res.render('index', {
     }
 }));
 
+
 app.get('/test', (req, res) => res.render('test'));
 
 app.use((req, res, next) => {
-    res.send('404');
+    res.status(404).send('404');
     next();
 });
 

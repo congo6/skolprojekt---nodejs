@@ -1,20 +1,43 @@
 <h1 class="text-center">{{title}}</h1>
 
 <div class="row">
-  <form method="POST" id="userForm" class="col s12">
+  <form method="POST" id="movieForm" class="col s12">
     <div class="input-field col s12">
-      <input type="text" name="name">
-      <label for="name">Name</label>
+      <input type="text" name="title">
+      <label for="title">Title</label>
     </div>
     <div class="input-field col s12">
-      <input type="text" name="age">
-      <label for="age">age</label>
+      <input type="text" name="description">
+      <label for="description">Description</label>
     </div>
-    <input type="submit" value="Add Member" class="btn btn-primary btn-block">
+    <div class="input-field col s12">
+      <input type="text" name="genre" placeholder="Action, Drama, Comedy...">
+      <label for="genre">Genre</label>
+    </div>
+    <div class="input-field col s12">
+      <input type="text" name="director">
+      <label for="director">Director</label>
+    </div>
+    <div class="input-field col s12">
+      <input type="text" name="stars">
+      <label for="stars">Stars</label>
+    </div>
+    <div class="input-field col s12">
+      <input type="text" name="Year">
+      <label for="Year">Year</label>
+    </div>
+    <div class="input-field col s12">
+      <input type="text" name="poster">
+      <label for="poster">Poster</label>
+    </div>
+    <input type="submit" value="add movie" class="btn btn-primary btn-block">
   </form>
 </div>
-
+<!--title, description, genre, director, stars, year, poster
+-->
+<div class="row">
 <div id="test"></div>
+</div>
 
 <!--
   <div class="row">
@@ -53,7 +76,7 @@
 <div class="row">
   <form method="DELETE" id="deleteUser" class="col s12">    
     <div class="input-field col s12">
-      <input type="text" name="uid">
+      <input type="text" name="mid">
       <label for="uid">ID</label>
     </div>
     <input type="submit" value="Delete user" class="btn btn-primary btn-block">
@@ -63,54 +86,74 @@
 <a href="/api/users" class="btn btn-light mt-4">Visit API</a>
 
 <script>
-// Hämta alla users, denna ska vara här
 showUsers()
 
 function showUsers() {
-  fetch('/api/users').then(res => {
+  fetch('/api/movies').then(res => {
     return res.json();
   }).then(data => {
-    let output = '<h2>users</h2>';
-    data.forEach(user => {
-        output += `
-            <ul class="mb-3">
-                <li class="list-group-item">ID: ${user._id}</li>
-                <li class="list-group-item">Name: ${user.name}</li>
-                <li class="list-group-item">Age: ${user.age}</li>
-            </ul>
-        `;
-        document.getElementById('test').innerHTML = output;
+    let output = '<h2>movies</h2>';
+    data.forEach(movie => {
+      output += `
+        <div class="col s12 l4">
+          <div class="card">
+            <div class="card-image">
+              <img src="${movie.poster}">
+            </div>
+            <div class="card-content">
+              <span class="card-title">${movie.title}</span>
+              <small>
+              <p>${movie.description}</p>
+              <hr>
+              <p>director: ${movie.director}</p>
+              <p>stars: ${movie.stars}</p></small>
+            </div>
+            <div class="card-action">
+              <a href="#">Click here</a>
+            </div>
+          </div>
+        </div>`;
+      document.getElementById('test').innerHTML = output;
     });
   });
 }
 
 // post request
-const userForm = document.getElementById('userForm');
-userForm.addEventListener('submit', e => {
+const movieForm = document.getElementById('movieForm');
+movieForm.addEventListener('submit', e => {
   e.preventDefault(); // tar bort standard beteende
   
   data = {
-    "name":userForm.name.value,
-    "age":userForm.age.value
+    "title":movieForm.title.value,
+    "description":movieForm.description.value,
+    "genre":movieForm.genre.value,
+    "director":movieForm.director.value,
+    "stars":movieForm.stars.value,
+    "Year":movieForm.Year.value,
+    "poster":movieForm.poster.value,
+
   };
   
+  isEmtpy(data);
+  /*
   console.log(data);
   if (Object.entries(data).length === 0) { //fixa!
     alert('tomma fält!');
   } else {
-    fetch('/api/users/',{
+    fetch('/api/movies/',{
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
         'Content-Type':'application/json'
       }
     }).then(res => {
-      refresh();
+      showUsers();
       return res.json();
     }).catch(error => {
       console.log(error);
     })
   }
+  */
 });
 
 
@@ -119,12 +162,17 @@ const deleteUser = document.getElementById('deleteUser');
 deleteUser.addEventListener('submit', e => {
   e.preventDefault();
 
-  fetch('/api/users/' + deleteUser.uid.value , {
+  fetch('/api/movies/' + deleteUser.mid.value , {
     method: "DELETE",
     headers: { "Content-Type": "application/json" }
-  }).then(res => res.json()).then(data => refresh()).catch(error => console.log(error));
-
- 
+  }).then(res => res.json()).then(data => showUsers()).catch(error => console.log(error));
 });
+
+function isEmtpy(obj) {
+  obj.forEach(object => {
+    console.log(object);
+  })
+}
+
 
 </script>

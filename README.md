@@ -3,12 +3,12 @@
 
 INSTALLATION
 ------------
- * Se till att ha nodejs, mongodb installerat
+ * Installera
  
- * Klona eller ladda ner projektet via github och ange följande i terminal/cmd:
+ * Klona och skriv följande i mappen där appen befinner sig i:
 
         npm install
 
- * Starta applikationen genom terminal/cmd i mappen där index.js befinner sig i via kommandot:
+ * Starta appen genom:
  
         node index.js
