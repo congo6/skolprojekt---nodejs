@@ -6,6 +6,7 @@ const stock = require('./routes/api/stock');
 const movies = require('./routes/api/movies');
 const moviesId = require('./routes/movies');
 
+//白月光
 
 const mongoose = require('mongoose');
 
@@ -29,7 +30,7 @@ app.use(express.urlencoded({extended: false}));
 app.use('/api/users', users);
 app.use('/api/stock', stock);
 app.use('/api/movies', movies);
-app.use('/movies', moviesId)
+app.use('/movies', moviesId) // byt namn
 
 
 app.use((err, req, res, next) => {
