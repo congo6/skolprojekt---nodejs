@@ -1,0 +1,114 @@
+
+<h1 class="center-align">Statistik</h1>
+<canvas id="myChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+obj = {
+    stars: [],
+    genre: [],
+    years: []
+};
+
+//Hämtar all data som ska behandlas och sedan visas i graf
+fetch('/api/movies').then(res => {
+    return res.json();
+}).then(data => {
+    data.forEach(movie => {
+        obj.stars.push(movie.stars);
+        obj.genre.push(movie.genre);
+        obj.years.push(movie.Year);
+    })
+    console.log('hello');
+    getStarsData(obj);
+}).catch(e => {
+    console.log(e);
+});
+
+function formatStars(obj) {
+    arr = [];
+    obj.stars.forEach(starsArray => {
+        starsArray.forEach(star => {
+            arr.push(star);
+        });
+    });
+    return arr;
+}
+
+function getStarsData(obj) {
+    let labels = [], data = [], temp;
+    starsArray = formatStars(obj); // Endast skådespelare i stor array
+    starsArray.sort();
+    
+    // Sorterar skådespelarna efter bokstavsordning för att sedan kunna användas i en annan sort funktion..
+    for(let i = 0; i < starsArray.length; i++) {
+        if (starsArray[i] !== temp) {
+            labels.push(starsArray[i]);
+            data.push(1)
+        } else {
+            data[data.length-1] += 1;
+        }
+        temp = starsArray[i];
+    } 
+
+    // sortableArray() - Placerar skådespelar namn och antalet filmer de spelat i detta format som sorteras efter största antal: [['Aamir Khan', 3], ['Charles Chaplin', 3], ...]
+    // sortArrayByValue() Gör återigen om till labels och data format: labels: ["Aamir Khan", "Charles Chaplin", ..] data: [3, 2, ..]
+    let labels1, data1 = sortableArray(labels, data);
+}
+
+function sortableArray(key, values) {
+    let result = [];
+    for (let i = 0; i < key.length; i++) {
+        result.push([key[i], values[i]]);
+    }
+    sortArrayByValue(result);
+    return result;
+}
+
+function sortArrayByValue(arr) {
+    let labels = [], data = [];
+    arr.sort((a, b) => {
+        return b[1] - a[1];
+    })
+    arr.forEach(arrayElement => {
+        labels.push(arrayElement[0]);
+        data.push(arrayElement[1]);
+    });
+    console.log(labels, data);
+    plotStarsGraph(labels, data);
+}
+
+
+function plotStarsGraph(labels, data) {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: labels.splice(0,20),
+        datasets: [{
+            label: 'Starred in',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data.splice(0,20)
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        scales: {
+            yAxes: [{
+                display:true,
+                ticks: {
+                    suggestedMin: 0
+                }
+            }]
+        }
+    }
+    });
+
+}
+</script>

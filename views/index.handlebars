@@ -1,78 +1,49 @@
 <h1 class="text-center">{{title}}</h1>
 
-<div class="row">
-  <form method="POST" id="movieForm" class="col s12">
-    <div class="input-field col s12">
-      <input type="text" name="title">
-      <label for="title">Title</label>
-    </div>
-    <div class="input-field col s12">
-      <input type="text" name="description">
-      <label for="description">Description</label>
-    </div>
-    <div class="input-field col s12">
-      <input type="text" name="genre" placeholder="Action, Drama, Comedy...">
-      <label for="genre">Genre</label>
-    </div>
-    <div class="input-field col s12">
-      <input type="text" name="director">
-      <label for="director">Director</label>
-    </div>
-    <div class="input-field col s12">
-      <input type="text" name="stars">
-      <label for="stars">Stars</label>
-    </div>
-    <div class="input-field col s12">
-      <input type="text" name="Year">
-      <label for="Year">Year</label>
-    </div>
-    <div class="input-field col s12">
-      <input type="text" name="poster">
-      <label for="poster">Poster</label>
-    </div>
-    <input type="submit" value="add movie" class="btn btn-primary btn-block">
-  </form>
-</div>
-<!--title, description, genre, director, stars, year, poster
--->
-<div class="row">
-<div id="test"></div>
+<div class="container">
+  <div class="row">
+    <form method="POST" id="movieForm" class="col s12">
+      <div class="input-field col s12">
+        <input type="text" name="title">
+        <label for="title">Title</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="description">
+        <label for="description">Description</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="genre" placeholder="Action, Drama, Comedy...">
+        <label for="genre">Genre</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="director">
+        <label for="director">Director</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="stars">
+        <label for="stars">Stars</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="Year">
+        <label for="Year">Year</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="poster">
+        <label for="poster">Poster</label>
+      </div>
+      <input type="submit" value="add movie" class="btn btn-primary btn-block">
+    </form>
+  </div>
 </div>
 
-<!--
+
+<section id="posters">
   <div class="row">
-    <div class="col s12 m7">
-      <div class="card">
-        <div class="card-image">
-          <img class="materialboxed" src="https://scotch-res.cloudinary.com/image/upload/w_1000,q_auto:good,f_auto/media/https://scotch.io/wp-content/uploads/2015/01/getting-started-materialize-css-framework.png">
-          <span class="card-title">Card Title</span>
-        </div>
-        <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-          <a href="#">This is a link</a>
-        </div>
-      </div>
-    </div>
-    <div class="col s12 m7">
-      <div class="card">
-        <div class="card-image">
-          <img class="materialboxed" src="https://scotch-res.cloudinary.com/image/upload/w_1000,q_auto:good,f_auto/media/https://scotch.io/wp-content/uploads/2015/01/getting-started-materialize-css-framework.png">
-          <span class="card-title">Card Title</span>
-        </div>
-        <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-          <a href="#">This is a link</a>
-        </div>
-      </div>
-    </div>
+    <div id="output"></div>
   </div>
--->
+</section>
+
+
 <div class="row">
   <form method="DELETE" id="deleteUser" class="col s12">    
     <div class="input-field col s12">
@@ -84,6 +55,7 @@
 </div>
 
 <a href="/api/users" class="btn btn-light mt-4">Visit API</a>
+<a href="/stats" class="btn btn-light mt-4">Visit stats</a>
 
 <script>
 showUsers()
@@ -94,6 +66,7 @@ function showUsers() {
   }).then(data => {
     let output = '<h2>movies</h2>';
     data.forEach(movie => {
+      let stars = movie.stars.join(', ');
       output += `
         <div class="col s12 l4">
           <div class="card">
@@ -101,19 +74,21 @@ function showUsers() {
               <img src="${movie.poster}">
             </div>
             <div class="card-content">
-              <span class="card-title">${movie.title}</span>
+              <span class="card-title">${movie.title} (${movie.Year})</span>
+              <bold>${movie.genre}</bold>
+              <hr>
               <small>
               <p>${movie.description}</p>
               <hr>
               <p>director: ${movie.director}</p>
-              <p>stars: ${movie.stars}</p></small>
+              <p>stars: ${stars}</p></small>
             </div>
             <div class="card-action">
-              <a href="#">Click here</a>
+              <a href="movies/${movie._id}">Click here</a>
             </div>
           </div>
         </div>`;
-      document.getElementById('test').innerHTML = output;
+      document.getElementById('output').innerHTML = output;
     });
   });
 }
@@ -134,26 +109,18 @@ movieForm.addEventListener('submit', e => {
 
   };
   
-  isEmtpy(data);
-  /*
-  console.log(data);
-  if (Object.entries(data).length === 0) { //fixa!
-    alert('tomma fält!');
-  } else {
-    fetch('/api/movies/',{
+  fetch('/api/movies/',{
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
         'Content-Type':'application/json'
       }
-    }).then(res => {
-      showUsers();
-      return res.json();
-    }).catch(error => {
-      console.log(error);
+  }).then(res => {
+    showUsers();
+    return res.json();
+  }).catch(error => {
+    console.log(error);
     })
-  }
-  */
 });
 
 
@@ -168,11 +135,8 @@ deleteUser.addEventListener('submit', e => {
   }).then(res => res.json()).then(data => showUsers()).catch(error => console.log(error));
 });
 
-function isEmtpy(obj) {
-  obj.forEach(object => {
-    console.log(object);
-  })
-}
 
 
+//statistik, hur många action filmer? 
 </script>
+

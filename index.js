@@ -5,6 +5,7 @@ const users = require('./routes/api/users');
 const stock = require('./routes/api/stock');
 const movies = require('./routes/api/movies');
 const moviesId = require('./routes/movies');
+const stats = require('./routes/stats');
 
 //白月光
 
@@ -30,7 +31,8 @@ app.use(express.urlencoded({extended: false}));
 app.use('/api/users', users);
 app.use('/api/stock', stock);
 app.use('/api/movies', movies);
-app.use('/movies', moviesId) // byt namn
+app.use('/movies', moviesId); // byt namn
+app.use('/stats', stats);
 
 
 app.use((err, req, res, next) => {

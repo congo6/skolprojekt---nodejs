@@ -1,3 +1,96 @@
-<h1 class="text-center">{{title}}</h1>
+<section id="movie">
+    <div class="container">
+        <div class="col s12 l4">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{poster}}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">{{title}} ({{year}})</span>
+                    <bold>{{genre}}</bold>
+                    <hr>
+                    <small>
+                    <p>{{description}}</p>
+                    <hr>
+                    <p>director: {{director}}</p>
+                    <p>stars: {{stars}}</p></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<p>{{id}}</p>
+<input id="id" type="hidden" value="{{id}}">
+
+<div class="container">
+<h3 class="center-align">Uppdatera</h3>
+  <div class="row">
+    <form method="patch" id="movieForm" class="col s12">
+      <div class="input-field col s12">
+        <input type="text" name="title">
+        <label for="title">Title</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="description">
+        <label for="description">Description</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="genre" placeholder="Action, Drama, Comedy...">
+        <label for="genre">Genre</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="director">
+        <label for="director">Director</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="stars">
+        <label for="stars">Stars</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="Year">
+        <label for="Year">Year</label>
+      </div>
+      <div class="input-field col s12">
+        <input type="text" name="poster">
+        <label for="poster">Poster</label>
+      </div>
+      <input type="submit" value="add movie" class="btn btn-primary btn-block">
+    </form>
+  </div>
+</div>
+
+<script>
+
+const movieForm = document.getElementById('movieForm');
+const id = document.getElementById('id').value;
+movieForm.addEventListener('submit', e => {
+    e.preventDefault(); // tar bort standard beteende
+
+    stars = movieForm.stars.value.split(", ");
+    data = {
+        "title":movieForm.title.value,
+        "description":movieForm.description.value,
+        "genre":movieForm.genre.value,
+        "director":movieForm.director.value,
+        "stars":stars,
+        "Year":movieForm.Year.value,
+        "poster":movieForm.poster.value,
+    };
+  
+  console.log(data);
+    fetch('/api/movies/'+id,{
+        method: 'PATCH',
+        body: JSON.stringify(data),
+        headers: {
+        'Content-Type':'application/json'
+        }
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        console.log(error);
+    });
+    location.reload(true);
+
+});
+
+</script>
