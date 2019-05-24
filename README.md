@@ -3,6 +3,8 @@
 Strunta i installationen och se länk istället:
 https://glacial-reef-57128.herokuapp.com/
 
+INNEHÅLL
+
 * index.js - servern
 * routes/ - hanterar länkarna
 * routes/api - REST api
