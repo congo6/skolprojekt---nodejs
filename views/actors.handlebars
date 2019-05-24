@@ -20,7 +20,6 @@ fetch('/api/movies').then(res => {
         obj.genre.push(movie.genre);
         obj.years.push(movie.Year);
     })
-    console.log('hello');
     getStarsData(obj);
 }).catch(e => {
     console.log(e);
@@ -38,22 +37,21 @@ function formatStars(obj) {
 
 function getStarsData(obj) {
     let labels = [], data = [], temp;
-    starsArray = formatStars(obj); // Endast skådespelare i stor array
+    starsArray = formatStars(obj); // Filterar bort genre och år och placerar alla skådespelare i en array
     starsArray.sort();
-    
     // Sorterar skådespelarna efter bokstavsordning för att sedan kunna användas i en annan sort funktion..
-    for(let i = 0; i < starsArray.length; i++) {
+    
+    for(let i = 0; i < starsArray.length; i++) { 
         if (starsArray[i] !== temp) {
             labels.push(starsArray[i]);
-            data.push(1)
+            data.push(1);
         } else {
             data[data.length-1] += 1;
         }
         temp = starsArray[i];
-    } 
+    } // Skapar två listor som grafen ska använda: exempelvis ["Aamir Khan", "Anne Hathway", ...] och [3, 1, ..]
 
     // sortableArray() - Placerar skådespelar namn och antalet filmer de spelat i detta format som sorteras efter största antal: [['Aamir Khan', 3], ['Charles Chaplin', 3], ...]
-    // sortArrayByValue() Gör återigen om till labels och data format: labels: ["Aamir Khan", "Charles Chaplin", ..] data: [3, 2, ..]
     let labels1, data1 = sortableArray(labels, data);
 }
 
@@ -66,7 +64,7 @@ function sortableArray(key, values) {
     return result;
 }
 
-function sortArrayByValue(arr) {
+function sortArrayByValue(arr) { // Gör återigen om listan till rätt format för grafen, ["Aamir Khan", "Charles Chaplin", ..] och [3, 3, ..]
     let labels = [], data = [];
     arr.sort((a, b) => {
         return b[1] - a[1];

@@ -11,7 +11,7 @@ def fetchMovies(url):
     res.encoding = 'UTF-8'
     soup = BeautifulSoup(res.text, 'lxml') 
     div = soup.find_all('div', {'class':'lister-item mode-advanced'})
-    return div    
+    return div
 
 def writeToFile(div):
     d = {}
@@ -32,15 +32,15 @@ def writeToFile(div):
             d['stars'] = stars
    
 
-            #tar affisch genom en annan REST api
+            #hämtar affischer genom en annan REST api
             imdbId = movie.find('div', {'class':'ribbonize'}).get('data-tconst')
             d['Year'], d['poster'] = getPoster(imdbId)
-            #print(d['title'])
+            print(d['title'])
             print(json.dumps(d), file=file)
             
-    print('Klar')
+    print('klar')
 
-# Hämtar affischer
+# Hämtar affischer från en annnan REST api då det förenklar hela processen
 def getPoster(imdbId):
     param = {
         "i": imdbId,

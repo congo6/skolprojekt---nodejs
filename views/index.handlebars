@@ -54,11 +54,12 @@
   </form>
 </div>
 
-<a href="/api/users" class="btn btn-light mt-4">Visit API</a>
+<a href="/api/movies" class="btn btn-light mt-4">Visit API</a>
 <a href="/stats" class="btn btn-light mt-4">Visit stats</a>
 
 <script>
 showUsers()
+
 
 function showUsers() {
   fetch('/api/movies').then(res => {
@@ -136,7 +137,5 @@ deleteUser.addEventListener('submit', e => {
 });
 
 
-
-//statistik, hur många action filmer? 
 </script>
 

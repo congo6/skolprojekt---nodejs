@@ -1,0 +1,76 @@
+<h1 class="center-align">Statistik</h1>
+<canvas id="myChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+obj = {
+    stars: [],
+    genre: [],
+    years: []
+};
+
+//Hämtar all data som ska behandlas och sedan visas i graf
+fetch('/api/movies').then(res => {
+    return res.json();
+}).then(data => {
+    data.forEach(movie => {
+        obj.stars.push(movie.stars);
+        obj.genre.push(movie.genre);
+        obj.years.push(movie.Year);
+    });
+    formatGenres(obj)
+}).catch(e => {
+    console.log(e);
+});
+
+function formatGenres(obj) { // Formaterar den stora genre listan till en sorterbar array
+    let labels = [], data = [], tempArr = [], temp;
+
+    obj.genre.forEach(genreString => {
+        genreString.split(", ").forEach(genreElement => {
+            tempArr.push(genreElement);
+        })
+    });
+
+    tempArr.sort(); // Sorterar genren i bokstavsordning: exempelvis ["Action", "Action", "Action", ...]
+
+    for (let i = 0; i < tempArr.length; i++) {
+        if (tempArr[i] !== temp) {
+            labels.push(tempArr[i]);
+            data.push(1);
+        } else {
+            data[data.length-1] += 1;
+        }
+        temp = tempArr[i];
+    } // Skapar två listor som grafen ska använda: exempelvis ["Action", "Comedy", ...] och [4, 12, ..]
+    plotGenreGraph(labels, data);
+}
+
+
+
+function plotGenreGraph(labels, data) {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Genre occurences',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        
+    }
+    });
+
+}
+</script>

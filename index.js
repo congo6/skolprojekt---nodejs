@@ -2,17 +2,14 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const users = require('./routes/api/users');
-const stock = require('./routes/api/stock');
 const movies = require('./routes/api/movies');
 const moviesId = require('./routes/movies');
 const stats = require('./routes/stats');
 
-//白月光
 
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // connect to mongodb
 mongoose.connect('mongodb://localhost/usergo', { useNewUrlParser: true }, (err, db) => {
@@ -21,17 +18,18 @@ mongoose.connect('mongodb://localhost/usergo', { useNewUrlParser: true }, (err, 
 });
 mongoose.Promise = global.Promise;
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({defaultLayout: 'main'})); // Handlebars funkar som en mall för HTML
 app.set('view engine', 'handlebars');
 
+
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false})); // Denna behövs för "bodyparsing", alltså för att behandla data som skickats från t.ex. POST formulär
 
 
+// De olika sökvägarna
 app.use('/api/users', users);
-app.use('/api/stock', stock);
 app.use('/api/movies', movies);
-app.use('/movies', moviesId); // byt namn
+app.use('/movies', moviesId);
 app.use('/stats', stats);
 
 
@@ -40,20 +38,16 @@ app.use((err, req, res, next) => {
     res.status(400).send({error: err.message});
 })
 
-app.get('/', (req, res) => res.render('index', {
-    title: 'index',
-    members: {
-        name: 'James',
-        age: '55'
-    }
-}));
+// Skapar 2 routes
+app.get('/', (req, res) => res.render('index', { title: 'index' }));
+app.get('/users', (req, res) => res.render('users'));
 
-
-app.get('/test', (req, res) => res.render('test'));
-
-app.use((req, res, next) => {
+app.use((req, res, next) => { // Om länkarna inte finns, skicka 404 
     res.status(404).send('404');
     next();
 });
+
+const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
