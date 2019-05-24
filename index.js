@@ -12,6 +12,9 @@ const mongoose = require('mongoose');
 const app = express();
 
 // connect to mongodb
+//mongodb://localhost/usergo - för lokalt
+// mongodb+srv://Ch:123@skolan-cluster-s93et.mongodb.net/test?retryWrites=true för mongodb atlas
+
 mongoose.connect('mongodb+srv://Ch:123@skolan-cluster-s93et.mongodb.net/test?retryWrites=true', { useNewUrlParser: true }, (err, db) => {
     if (err) throw err;
     console.log('mongoose is running!');
