@@ -45,12 +45,12 @@
 
 
 <div class="row">
-  <form method="DELETE" id="deleteUser" class="col s12">    
+  <form method="DELETE" id="deleteMovie" class="col s12">    
     <div class="input-field col s12">
       <input type="text" name="mid">
       <label for="uid">ID</label>
     </div>
-    <input type="submit" value="Delete user" class="btn btn-primary btn-block">
+    <input type="submit" value="Delete movie" class="btn btn-primary btn-block">
   </form>
 </div>
 
@@ -129,11 +129,11 @@ movieForm.addEventListener('submit', e => {
 
 
 //Delete user
-const deleteUser = document.getElementById('deleteUser');
-deleteUser.addEventListener('submit', e => {
+const deleteMovie = document.getElementById('deleteMovie');
+deleteMovie.addEventListener('submit', e => {
   e.preventDefault();
 
-  fetch('/api/movies/' + deleteUser.mid.value , {
+  fetch('/api/movies/' + deleteMovie.mid.value , {
     method: "DELETE",
     headers: { "Content-Type": "application/json" }
   }).then(res => res.json()).then(data => showUsers()).catch(error => console.log(error));
