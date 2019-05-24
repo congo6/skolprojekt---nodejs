@@ -3,6 +3,13 @@
 Strunta i installationen och se länk:
 https://glacial-reef-57128.herokuapp.com/
 
+index.js - servern
+routes/ - hanterar länkarna
+routes/api - REST api
+views/index.handlebars - html & javascript
+models/ - databas struktur
+scrapemovies/scrapemovies.py - python webscraper, hämtar 50 filmer från top 100 https://www.imdb.com/search/title?genres=drama&groups=top_250&sort=user_rating,desc
+
 
 
 INSTALLATION
