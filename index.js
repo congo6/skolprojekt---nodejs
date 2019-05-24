@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost/usergo', { useNewUrlParser: true }, (err, db) => {
+mongoose.connect('mongodb+srv://Ch:123@skolan-cluster-s93et.mongodb.net/test?retryWrites=true', { useNewUrlParser: true }, (err, db) => {
     if (err) throw err;
     console.log('mongoose is running!');
 });
@@ -48,6 +48,5 @@ app.use((req, res, next) => { // Om länkarna inte finns, skicka 404
 });
 
 const PORT = process.env.PORT || 5000;
-
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
