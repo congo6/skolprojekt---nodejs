@@ -1,4 +1,4 @@
-# Skolprojekt - nodejs
+# Skolprojekt - nodejs 20190530
 
 Strunta i installationen och se länk istället:
 https://glacial-reef-57128.herokuapp.com/
